@@ -1,12 +1,17 @@
 import React from "react";
 import { Button } from "../components/Button.tsx";
+import { useNavigate } from "react-router-dom";
 import '../styles/auth.scss';
 
 export function Home() {
     const illustrationImg = require("../assets/images/illustration.png");
     const logoImg = require("../assets/images/logo.png");
     const googleIconImg = require("../assets/images/google-icon.png");
+    const navigate = useNavigate();
 
+    function navigateToNewRoom() {
+        navigate("rooms/new")
+    }
     return (
         <div id="page-auth">
             <aside>
@@ -20,7 +25,7 @@ export function Home() {
             <main>
                 <div className="main-content">
                     <img src={logoImg} alt="Letmeask" />
-                    <button className="create-room">
+                    <button className="create-room" onClick={navigateToNewRoom}>
                         <img
                             src={googleIconImg}
                             alt="Logo do Google"

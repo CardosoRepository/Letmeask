@@ -1,12 +1,9 @@
 import React from "react";
-import {Button} from "./components/Button.tsx";
+import { Home } from "./pages/Home.tsx";
 
 function App() {
     return (
-        <div>
-            <h1>Hello World</h1>
-            <Button></Button>
-        </div>
+        <Home />
     )
 }
 

@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "../components/Button.tsx";
 import { Link } from "react-router-dom";
-import '../styles/auth.scss';
+import "../styles/auth.scss";
+import { useAuth } from "../hooks/useAuth.ts";
+import { AuthContext } from "../contexts/AuthContext.tsx";
 
 export function NewRoom() {
     const illustrationImg = require("../assets/images/illustration.png");
     const logoImg = require("../assets/images/logo.png");
-    const googleIconImg = require("../assets/images/google-icon.png");
+    const { user, signInWithGoogle } = useAuth();
 
     return (
         <div id="page-auth">
@@ -21,15 +23,16 @@ export function NewRoom() {
             <main>
                 <div className="main-content">
                     <img src={logoImg} alt="Letmeask" />
+                    <h1>{user?.name}</h1>
                     <h2>Criar uma nova sala</h2>
                     <form>
-                        <input
-                            type="text"
-                            placeholder="Nome da sala"
-                        />
+                        <input type="text" placeholder="Nome da sala" />
                         <Button type="submit">Criar sala</Button>
                     </form>
-                    <p>Quer entrar em uma sala existente? <Link to="/">Clique aqui</Link></p>
+                    <p>
+                        Quer entrar em uma sala existente?{" "}
+                        <Link to="/">Clique aqui</Link>
+                    </p>
                 </div>
             </main>
         </div>

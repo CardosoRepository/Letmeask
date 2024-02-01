@@ -3,6 +3,7 @@ import { Home } from "./pages/Home.tsx";
 import { NewRoom } from "./pages/NewRoom.tsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthContextProvider } from './contexts/AuthContext.tsx';
+import { Room } from "./pages/Room.tsx";
 
 function App() {
     return (
@@ -11,6 +12,7 @@ function App() {
                 <Routes>
                     <Route path="/" Component={Home}></Route>
                     <Route path="/rooms/new" Component={NewRoom}></Route>
+                    <Route path="/rooms/:id" Component={Room}></Route>
                 </Routes>
             </AuthContextProvider>
         </BrowserRouter>

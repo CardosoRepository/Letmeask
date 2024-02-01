@@ -1,14 +1,23 @@
 import React from "react";
-import copyImg from "../assets/images/copy.png";
 import "../styles/room-code.scss";
 
-export function RoomCode() {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+
+type RoomCodeProps = {
+    code: string | undefined;
+};
+
+export function RoomCode(props: RoomCodeProps) {
+    function copyRoomCodeToClipboard() {
+        navigator.clipboard.writeText(props.code || '');
+    }
     return (
-        <button className="room-code">
+        <button className="room-code" onClick={copyRoomCodeToClipboard}>
             <div>
-                <img src={copyImg} alt="Copy room code" />
+                <FontAwesomeIcon className="icon" icon={faEnvelope} />
             </div>
-            <span>Sala #21321321</span>
+            <span>Sala {props.code}</span>
         </button>
     )
 }

@@ -9,7 +9,7 @@ import "../styles/room.scss";
 import { useRoom } from "../hooks/useRoom.ts";
 import { database } from "../services/firebase.ts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle, faComment, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 type roomParams = {
     id: string;
@@ -30,6 +30,18 @@ export function AdminRoom() {
             });
             navigate("/");
         }
+    }
+
+    async function handleCheckQuestionAsAnswered(questionId: string) {
+        await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+            isAnswered: true,
+        });
+    }
+
+    async function handleHighlightQuestion(questionId: string) {
+        await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+            isHighlighted: true,
+        });
     }
 
     async function handleDeleteQuestion(questionId: string) {
@@ -65,7 +77,19 @@ export function AdminRoom() {
                                 author={
                                     question?.author ?? { name: "", avatar: "" }
                                 }
+                                isAnswered={question.isAnswered}
+                                isHighlighted={question.isHighlighted}
                             >
+                                {!question.isAnswered && (
+                                    <>
+                                        <button type="button" onClick={() => handleCheckQuestionAsAnswered(question.id)}>
+                                            <FontAwesomeIcon icon={faCheckCircle} />
+                                        </button>
+                                        <button type="button" onClick={() => handleHighlightQuestion(question.id)}>
+                                            <FontAwesomeIcon icon={faComment} />
+                                        </button>
+                                    </>
+                                )}
                                 <button type="button" onClick={() => handleDeleteQuestion(question.id)}>
                                     <FontAwesomeIcon icon={faTrash} />
                                 </button>

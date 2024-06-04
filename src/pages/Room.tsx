@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Question } from "../components/Question/question-index.tsx";
 import { Button } from "../components/Button.tsx";
@@ -14,12 +14,13 @@ type roomParams = {
 };
 
 export function Room() {
-    const { user } = useAuth();
+    const { user, signInWithGoogle } = useAuth();
     const params = useParams<roomParams>();
     const roomId = params.id;
     const [newQuestion, setNewQuestion] = useState("");
     const logoImg = require("../assets/images/logo.png");
     const { questions, title } = useRoom(roomId ?? "");
+    const navigate = useNavigate();
 
     async function handleSendQuestion(event: FormEvent) {
         event.preventDefault();
@@ -63,6 +64,14 @@ export function Room() {
         }
     }
 
+    async function handleCreateRoom() {
+        if (!user) {
+            await signInWithGoogle();
+        }
+
+        navigate("/rooms/"+ roomId);
+    }
+
     return (
         <div id="page-room">
             <header>
@@ -93,7 +102,7 @@ export function Room() {
                         ) : (
                             <span>
                                 Para enviar uma pergunta,{" "}
-                                <button>faça seu login</button>.
+                                <button onClick={handleCreateRoom}>faça seu login</button>.
                             </span>
                         )}
                         <Button type="submit" disabled={!user}>
